@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 public class Client {
 
 	public static void main(String[] args) {
-//		Boolean isConnect = false;
+		Boolean isConnect = false;
 		try {
 			// получаем ip адрес текущего компа,т.к. сервер находится на этом же компе
 			InetAddress adress = InetAddress.getLocalHost();
@@ -26,7 +26,7 @@ public class Client {
 				dos.flush();
 				String request = "";
 
-//				while (!isConnect) {
+				while (!isConnect) {
 					System.out.println("Введите искомое слово");
 					BufferedReader inp = new BufferedReader(new InputStreamReader(System.in));
 					request = inp.readLine();
@@ -40,17 +40,17 @@ public class Client {
 						String line = dis.readUTF();// считываем ответ от сервера
 						System.out.println("Ответ получен: " + line);
 					} else {
-//						isConnect = true;
+						isConnect = true;
 						System.out.println("Соединение завершено");
 					}
-//				}
-			
+				}
+
 				dos.close();
 				dis.close();
 				socket.close();
 
 			} catch (IOException e) {
-//				isConnect = true;
+				isConnect = true;
 				System.out.println("Соединение прервано");
 			}
 		} catch (UnknownHostException e) {
