@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.AttributeSet.ColorAttribute;
 
 /**
  * Create view class
@@ -22,10 +21,17 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 public class View extends JFrame{
 
 	private static final long serialVersionUID = 5699553196613899908L;
+	private ExcelWorker worker;
+	private JTextField textFirstName;
+	private JTextField textSecondName;
+	private JTextField textAddAge;
+	private JTextField textGroupNumber;
+	private JTextField textStudentID;
 
-	public View() {
+	public View(ExcelWorker worker) {
 		super("Student list");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.worker = worker;
 	}
 	
 	public void startApp() {
@@ -43,18 +49,18 @@ public class View extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(7, 3, 60, 60));
 		JLabel addFirstName = new JLabel("   Имя:    ");
-		JTextField textFirstName = new JTextField("");
+		textFirstName = new JTextField("");
 		JLabel addSecondName = new JLabel("   Фамилия:    ");
-		JTextField textSecondName = new JTextField("");
+		textSecondName = new JTextField("");
 		JLabel addAge = new JLabel("   Возраст:    ");
-		JTextField textAddAge = new JTextField("");
+		textAddAge = new JTextField("");
 		JLabel addGroupNumber = new JLabel("   Номер группы:    ");
-		JTextField textGroupNumber = new JTextField("");
+		textGroupNumber = new JTextField("");
 		JLabel addStudentID = new JLabel("   Номер зачетки:    ");
-		JTextField textStudentID = new JTextField("");
+		textStudentID = new JTextField("");
 
 		JButton read = new JButton("Считать и вывести");
-		JButton add = new JButton("Записать");
+		JButton write = new JButton("Записать");
 
 		panel.add(addFirstName);
 		panel.add(textFirstName);
@@ -67,26 +73,27 @@ public class View extends JFrame{
 		panel.add(addStudentID);
 		panel.add(textStudentID);
 		panel.add(read);
-		panel.add(add);
+		panel.add(write);
 
 		read.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				worker.readFile();
+				JOptionPane.showMessageDialog(null, "Прочитано", "Сообщение", 1);
 			}
 		});
 
-		add.addActionListener(new ActionListener() {
+		write.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if (helper.writeFile(textFirstName.getText(), textSecondName.getText(), textThirdName.getText(),
-//						textNumber.getText(), textMail.getText(), textYearBorn.getText())) {
-//					JOptionPane.showMessageDialog(null, "Добавлено", "Сообщение", 1);
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Проверте введенную информацию", "Сообщение", 1);
-//				}
+				Student student = new Student(textFirstName.getText(),textSecondName.getText(),Integer.parseInt(textAddAge.getText()),
+						textGroupNumber.getText(),Integer.parseInt(textStudentID.getText()));
+				worker.writeFile(student);
+				JOptionPane.showMessageDialog(null, "Записано", "Сообщение", 1);
+
+				
 			}
 		});
 

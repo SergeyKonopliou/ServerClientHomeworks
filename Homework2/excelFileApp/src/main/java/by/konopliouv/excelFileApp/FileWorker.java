@@ -1,14 +1,10 @@
 package by.konopliouv.excelFileApp;
 
-import java.io.File;
-
 public interface FileWorker {
 
-	public abstract File createFile();
+	public abstract void createFile();
 	
-	public abstract File readFile();
+	public abstract void readFile();
 	
-	public abstract File showFile();
-	
-	public abstract File writeFile();
+	public abstract void writeFile(Student student);
 }

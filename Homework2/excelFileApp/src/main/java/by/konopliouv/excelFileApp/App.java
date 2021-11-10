@@ -12,7 +12,8 @@ public class App
     {
     	SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new View().startApp();
+				ExcelWorker worker = new ExcelWorker();
+				new View(worker).startApp();
 			}
 		});
     }
