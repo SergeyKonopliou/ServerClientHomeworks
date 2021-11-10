@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
-	List<Object> keyWords = new ArrayList<>();
+	List<KeyWord> keyWords = new ArrayList<>();
 	
 	public void createMap() {
 		keyWords.add(new KeyWord("abstract","абстрактный метод, абстрактный класс"));
@@ -15,13 +15,7 @@ public class Helper {
 		
 	}
 	
-	public Object checkWord(String word) {
-		for (int i = 0; i < keyWords.size(); i++) {
-		    KeyWord element = (KeyWord) keyWords.get(i);
-		    if(element.name.equalsIgnoreCase(word)) {
-				return element;
-			}   
-		}
-		 return null;	
+	public KeyWord checkWord(String word) {
+		return keyWords.stream().filter((s) -> s.getName().equals(word)).findAny().orElse(null);
 	}
 }

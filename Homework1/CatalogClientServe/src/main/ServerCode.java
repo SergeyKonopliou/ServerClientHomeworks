@@ -32,7 +32,7 @@ public class ServerCode {
 				// ждем подключения клиента
 				Socket client = server.accept();
 				// создаем новый поток на новое подключение клиента
-				ThreadServerCode thread = new ThreadServerCode(client, help, countClient++);
+				ServerCodeRunnable thread = new ServerCodeRunnable(client, help, countClient++);
 				Thread newThread = new Thread(thread);
 				newThread.start();
 
