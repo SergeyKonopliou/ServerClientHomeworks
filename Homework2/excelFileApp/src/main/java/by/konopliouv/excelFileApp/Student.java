@@ -12,13 +12,13 @@ public class Student {
 		
 	}
 	
-	public Student(String firstName,String secondName,int age,
-			String groupName,int studentID) {
-		this.firstName = firstName;
-		this.secondName = secondName;
-		this.age = age;
-		this.groupName = groupName;
-		this.studentID = studentID;
+	public Student(String firstName,String secondName,String age,
+			String groupName,String studentID) {
+		this.firstName = (!firstName.equals(""))? firstName:"-";
+		this.secondName = (!secondName.equals(""))? secondName:"-";
+		this.age = (!age.equals(""))? Integer.parseInt(age):0;
+		this.groupName =(!groupName.equals(""))? groupName:"-";
+		this.studentID = (!studentID.equals(""))? Integer.parseInt(studentID):0;
 	}
 
 	public String getFirstName() {

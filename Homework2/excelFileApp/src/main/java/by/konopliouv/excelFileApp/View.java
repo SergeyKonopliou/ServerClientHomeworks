@@ -88,8 +88,8 @@ public class View extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Student student = new Student(textFirstName.getText(),textSecondName.getText(),Integer.parseInt(textAddAge.getText()),
-						textGroupNumber.getText(),Integer.parseInt(textStudentID.getText()));
+				Student student = new Student(textFirstName.getText(),textSecondName.getText(),textAddAge.getText(),
+						textGroupNumber.getText(),textStudentID.getText());
 				worker.writeFile(student);
 				JOptionPane.showMessageDialog(null, "Записано", "Сообщение", 1);
 
