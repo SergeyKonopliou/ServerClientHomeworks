@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Formatter;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -87,8 +88,9 @@ public class ExcelWorker implements FileWorker {
 	}
 
 	@Override
-	public void readFile() {
+	public StringBuilder readFile() {
 
+		StringBuilder builder = new StringBuilder();
 		FileInputStream inputStream;
 		try {
 			inputStream = new FileInputStream(new File(FILE_NAME));
@@ -98,10 +100,12 @@ public class ExcelWorker implements FileWorker {
 				HSSFSheet sheet = workbook.getSheetAt(0);
 
 				if (sheet.getLastRowNum() == 0) {
+					builder.append("Файл пуст");
 					System.out.println("Файл пуст");
 				} else {
 					// итератор строк
 					Iterator<Row> rowIterator = sheet.iterator();
+					
 					while (rowIterator.hasNext()) {
 						Row row = rowIterator.next();
 						// итератор ячеек строки
@@ -110,22 +114,33 @@ public class ExcelWorker implements FileWorker {
 						while (cellIterator.hasNext()) {
 							Cell cell = cellIterator.next();
 							CellType cellType = cell.getCellTypeEnum();
-
+					 
+							
 							switch (cellType) {
 							case _NONE:
 								System.out.printf("%-20s"," ");
+								Formatter f = new Formatter();
+								f.format("%-30s"," ");
+								builder.append(f);
 								break;
 							case NUMERIC:
 								System.out.printf("%-20d",(int)cell.getNumericCellValue());
+								Formatter f2 = new Formatter();
+								f2.format("%-30d",(int)cell.getNumericCellValue());
+								builder.append(f2);
 								break;
 							case STRING:
 								System.out.printf("%-20s",cell.getStringCellValue());
+								Formatter f3 = new Formatter();
+								f3.format("%-30s",cell.getStringCellValue());
+								builder.append(f3);
 								break;
 							default:
 								break;
 							}
 						}
 						System.out.println();
+						builder.append("\n");
 					}
 				}
 			} catch (IOException e) {
@@ -135,6 +150,8 @@ public class ExcelWorker implements FileWorker {
 		} catch (FileNotFoundException e1) {
 			System.out.println("Файл не найден");
 		}
+		
+		return builder;
 
 	}
 
@@ -144,11 +161,9 @@ public class ExcelWorker implements FileWorker {
 		FileInputStream inputStream;
 		try {
 			inputStream = new FileInputStream(new File(FILE_NAME));
-			// Get the workbook instance for XLS file
 			HSSFWorkbook workbook;
 			try {
 				workbook = new HSSFWorkbook(inputStream);
-				// Get first sheet from the workbook
 				HSSFSheet sheet = workbook.getSheetAt(0);
 
 				// получаем количество строк в документе
@@ -162,21 +177,28 @@ public class ExcelWorker implements FileWorker {
 
 				cell = row.createCell(1, CellType.STRING);
 				cell.setCellValue(student.getFirstName());
+				//автоподстройка длинны ячейки
+				sheet.autoSizeColumn(1);
 
 				cell = row.createCell(2, CellType.STRING);
 				cell.setCellValue(student.getSecondName());
+				sheet.autoSizeColumn(2);
 
 				cell = row.createCell(3, CellType.NUMERIC);
 				cell.setCellValue(student.getAge());
 
 				cell = row.createCell(4, CellType.STRING);
 				cell.setCellValue(student.getGroupName());
+				sheet.autoSizeColumn(4);
 
 				cell = row.createCell(5, CellType.NUMERIC);
 				cell.setCellValue(student.getStudentID());
+				sheet.autoSizeColumn(5);
 
 				FileOutputStream outFile = new FileOutputStream(file);
 				workbook.write(outFile);
+				
+				
 
 			} catch (IOException e) {
 				System.out.println("Проблемы с чтением файла");

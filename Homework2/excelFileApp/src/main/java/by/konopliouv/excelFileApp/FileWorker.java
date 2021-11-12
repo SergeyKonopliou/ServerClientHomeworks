@@ -4,7 +4,7 @@ public interface FileWorker {
 
 	public abstract void createFile();
 	
-	public abstract void readFile();
+	public StringBuilder readFile();
 	
 	public abstract void writeFile(Student student);
 }

@@ -79,8 +79,9 @@ public class View extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				worker.readFile();
+				StringBuilder result = worker.readFile();
 				JOptionPane.showMessageDialog(null, "Прочитано", "Сообщение", 1);
+				JOptionPane.showMessageDialog(null, result.toString());
 			}
 		});
 
@@ -91,6 +92,7 @@ public class View extends JFrame{
 				Student student = new Student(textFirstName.getText(),textSecondName.getText(),textAddAge.getText(),
 						textGroupNumber.getText(),textStudentID.getText());
 				worker.writeFile(student);
+				clear();
 				JOptionPane.showMessageDialog(null, "Записано", "Сообщение", 1);
 
 				
@@ -99,5 +101,13 @@ public class View extends JFrame{
 
 		
 		return panel;
+	}
+	
+	private void clear() {
+		textFirstName.setText("");
+		textSecondName.setText("");
+		textAddAge.setText("");
+		textGroupNumber.setText("");
+		textStudentID.setText("");
 	}
 }
