@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import by.main.Good;
 import by.main.GoodsCatalog;
@@ -24,39 +25,47 @@ public class CatalogServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		processRequest(req, resp);
+//		processRequest(req, resp);
 //		RequestDispatcher dispatcher = req.getRequestDispatcher("catalog.jsp");
 //		dispatcher.forward(req, resp);
-
+		
+//		HttpSession session= req.getSession(true);
+		req.setAttribute("catalog", catalog.getGoods());
+		getServletContext().getRequestDispatcher("/catalog.jsp").forward(req, resp);
 	}
 
-	private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String value = req.getParameter("name");
-		List<Good> goods;
-		if (value != null && !value.isEmpty()) {
-			String name = value;
-			goods = catalog.getGoods(name);
-		} else {
-			goods = catalog.getGoods();
-		}
-		resp.getWriter().println("<table>");
-		resp.getWriter().println("<th>Name</th>");
-		resp.getWriter().println("<th>Price</th>");
-
-		for (Good good : goods) {
-			resp.getWriter().println("<tr>");
-			resp.getWriter().println("<td>" + good.getName() + "</td>");
-			resp.getWriter().println("<td>" + good.getPrice() + "</td>");
-			resp.getWriter().println("</tr>");
-		}
-		resp.getWriter().println("</table>");
-	}
+	//для поиска товара по названию
+//	private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//		String value = req.getParameter("name");
+//		List<Good> goods;
+//		if (value != null && !value.isEmpty()) {
+//			String name = value;
+//			goods = catalog.getGoods(name);
+//		} else {
+//			goods = catalog.getGoods();
+//		}
+//		resp.getWriter().println("<table>");
+//		resp.getWriter().println("<th>Name</th>");
+//		resp.getWriter().println("<th>Price</th>");
+//
+//		for (Good good : goods) {
+//			resp.getWriter().println("<tr>");
+//			resp.getWriter().println("<td>" + good.getName() + "</td>");
+//			resp.getWriter().println("<td>" + good.getPrice() + "</td>");
+//			resp.getWriter().println("</tr>");
+//		}
+//		resp.getWriter().println("</table>");
+//	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		processRequest(req, resp);
+//		processRequest(req, resp);
 //		RequestDispatcher dispatcher = req.getRequestDispatcher("catalog.jsp");
 //		dispatcher.forward(req, resp);
+		
+//		HttpSession session= req.getSession(true);
+		req.setAttribute("catalog", catalog.getGoods());
+		getServletContext().getRequestDispatcher("/catalog.jsp").forward(req, resp);
 	}
 
 }
