@@ -22,7 +22,7 @@ public class GoodsCatalog {
 		goods.add(good3);
 	}
 
-	public List<Good> getGoods(String name) {
+	public List<Good> findGoods(String name) {
 		List<Good> foundGoods = new ArrayList<>();
 		for (Good good : goods) {
 			if (good.getName().equalsIgnoreCase(name)) {
@@ -36,7 +36,7 @@ public class GoodsCatalog {
 		return goods;
 	}
 
-	public void setEquipments(List<Good> goods) {
+	public void setGoods(List<Good> goods) {
 		this.goods = goods;
 	}
 }
