@@ -23,7 +23,7 @@ public class LogoutServlet extends HttpServlet {
 		if (session != null) {
 			session.removeAttribute("loginName");
 			session.removeAttribute("loginPass");
-//			session.removeAttribute("catalog");
+			session.invalidate();
 		}
 
 		response.sendRedirect(request.getContextPath() + "/index.jsp");

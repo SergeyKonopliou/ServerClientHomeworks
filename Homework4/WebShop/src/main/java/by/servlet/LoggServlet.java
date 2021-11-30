@@ -33,7 +33,7 @@ public class LoggServlet extends HttpServlet {
 			String name = (String) request.getParameter("name");
 			String password = (String) request.getParameter("pass");
 
-			if (name != "" && password != "") {
+			if (name.isEmpty() && password.isEmpty()) {
 				session = request.getSession();
 				session.setAttribute("loginName", name);
 				session.setAttribute("loginPass", password);

@@ -55,8 +55,7 @@ public class CatalogServlet extends HttpServlet {
 		String value = req.getParameter("search-good");
 		List<Good> goods;
 		if (value != null && !value.isEmpty()) {
-			String name = value;
-			goods = catalog.findGoods(name);
+			goods = catalog.findGoods(value);
 		} else {
 			goods = catalog.getGoods();
 		}
