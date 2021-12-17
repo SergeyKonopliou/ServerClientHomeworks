@@ -10,10 +10,11 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
-<title>Добавление товара</title>
+<title>Изменение каталога</title>
 </head>
 <body>
 
+	<h2>Добавить новый товар</h2>
 	<form action="add" method="get" name="addForm">
 		<div class="row">
 			<div class="col">
@@ -25,14 +26,60 @@
 					placeholder="Цена">
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary mb-2" onclick="completeAdd()">Добавить</button>
+		<button type="submit" class="btn btn-primary mb-2"
+			onclick="completeAdd()">Добавить</button>
 	</form>
 
-	<a href="indexIn.jsp"> Назад </a>
+	<p><p>
 	
+	<h2>Удалить товар</h2>
+	<form action="delete" method="get" name="deleteForm">
+	 <input type="hidden" name="type" value="delete" />
+		<div class="row">
+			<div class="col">
+				<input type="text" name="update-name" class="form-control"
+					placeholder="Название товара">
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary mb-2"
+			onclick="completeDelete()">Удалить</button>
+	</form>
+	
+	<p><p>
+	
+	<h2>Изменить товар</h2>
+	<form action="update" method="get" name="updateForm">
+	 <input type="hidden" name="type" value="update" />
+		<div class="row">
+			<div class="col">
+				<input type="text" name="update-name" class="form-control"
+					placeholder="Название товара">
+			</div>
+			<div class="col">
+				<input type="text" name="update-nameNew" class="form-control"
+					placeholder="Новое название товара">
+			</div>
+			<div class="col">
+				<input type="text" name="update-priceNew" class="form-control"
+					placeholder="Новая цена">
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary mb-2"
+			onclick="completeUpdate()">Изменить</button>
+	</form>
+
+	<br>
+	<a href="indexIn.jsp"> Назад </a>
+
 	<script>
 		function completeAdd() {
 			alert("Товар добавлен");
+		}
+		function completeDelete() {
+			alert("Товар удален");
+		}
+		function completeUpdate() {
+			alert("Товар изменён");
 		}
 	</script>
 

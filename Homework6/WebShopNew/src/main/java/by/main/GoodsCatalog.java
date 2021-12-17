@@ -14,6 +14,8 @@ public class GoodsCatalog {
 	private List<Good> goods;
 	private Connection connection;
 	private Statement statement = null;
+	private boolean isFind = false;//для методов изменения и удаления товара,чтобы знать есть ли в базе искомый товар
+	private boolean isUpdateOrDelete = false;//если поиск выполняется для метода изменить или удалить,то выставляем в true
 
 	public GoodsCatalog() {
 		goods = new ArrayList<>();
@@ -74,32 +76,13 @@ public class GoodsCatalog {
 			System.out.println("Проблемы при начальном создании таблицы с начальными данными");
 		}
 	}
-
-	public List<Good> findGoods(String nameGood) {
-		List<Good> foundGoods = new ArrayList<>();
-		String query = "SELECT name,price FROM goods WHERE name LIKE ?";
-		PreparedStatement ps;
-		try {
-			ps = connection.prepareStatement(query);
-			ps.setString(1, nameGood);
-
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				String name = rs.getString("name");
-				double price = rs.getDouble("price");
-				foundGoods.add(new Good(name, price));
-			}
-		} catch (SQLException e) {
-			System.out.println("Возникла ошибка при поиске товара по наименованию");
-		}
-		return foundGoods;
-	}
-
+	
+	/**
+	 * метод получения всех товаров для формирования каталога товаров
+	 */
 	public List<Good> getGoods() {
 		List<Good> newGoods = new ArrayList<>();
 		try {
-			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM goods");
 			while (resultSet.next()) {
 				String name = resultSet.getString(2);
@@ -114,6 +97,41 @@ public class GoodsCatalog {
 		return goods;
 	}
 
+	/**
+	 * метод поиска товара по названию
+	 */
+	public List<Good> findGoods(String nameGood) {
+		List<Good> foundGoods = new ArrayList<>();
+		String query;
+		if(isUpdateOrDelete) {
+			 query = "SELECT name,price FROM goods WHERE name = ?";
+		}else {
+			query = "SELECT name,price FROM goods WHERE name LIKE ?";
+			nameGood = "%" + nameGood + "%";
+		}
+ 
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement(query);
+			ps.setString(1, nameGood);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				String name = rs.getString("name");
+				double price = rs.getDouble("price");
+				foundGoods.add(new Good(name, price));
+				isFind = true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Возникла ошибка при поиске товара по наименованию");
+		}
+		return foundGoods;
+	}
+
+	/**
+	 * метод добавления нового товара
+	 */
 	public void setGoods(Good good) {
 		String query = String.format("INSERT INTO goods(name, price) VALUES ('%s'," + good.getPrice() + ")", good.getName());
 		System.out.println(query);
@@ -122,5 +140,58 @@ public class GoodsCatalog {
 		} catch (SQLException e) {
 			System.out.println("Ошибка при добавлении нового товара в БД");
 		}
+	}
+	
+	/**
+	 * метод изменения существующего товара
+	 */
+	public String updateGood(String oldName,String newName,String newPrice) {
+		isUpdateOrDelete = true;
+		findGoods(oldName);
+		isUpdateOrDelete = false;
+		String query;
+		if(isFind) {
+			if(!newPrice.isEmpty()) {
+				query = String.format("UPDATE goods SET name = '%s',price = " + Double.parseDouble(newPrice) + " WHERE name = '%s'",
+						newName,oldName);
+				System.out.println(query);
+			}else {
+				query = String.format("UPDATE goods SET name = '%s' WHERE name = '%s'",
+						newName,oldName);
+				System.out.println(query);
+			}
+			
+			try {
+				statement.execute(query);
+				isFind = false;
+				return "Изменено";
+			} catch (SQLException e) {
+				System.out.println("Возникла ошибка в методе updateGood()");
+				e.printStackTrace();
+			}
+		}
+		return "Товар не найден";
+	}
+	
+	/**
+	 * метод удаления существующего товара
+	 */
+	public String deleteGood(String name) {
+		isUpdateOrDelete = true;
+		findGoods(name);
+		isUpdateOrDelete = false;
+		if(isFind) {
+			String query = String.format("DELETE FROM goods WHERE name = '%s'",name);
+			System.out.println(query);
+			try {
+				statement.execute(query);
+				isFind = false;
+				return "Удалено";
+			} catch (SQLException e) {
+				System.out.println("Возникла ошибка в методе deleteGood()");
+				e.printStackTrace();
+			}
+		}
+		return "Товар не найден";
 	}
 }

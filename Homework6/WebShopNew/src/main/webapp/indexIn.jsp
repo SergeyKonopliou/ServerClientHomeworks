@@ -32,13 +32,13 @@
 				Password:
 				<%=password%></p>
 			<hr>
-			<p class="mb-0">Теперь вам доступно добавление товара.</p>
+			<p class="mb-0">Теперь вам доступна работа с каталогом.</p>
 		</div>
 	</div>
 	<div class="referencies">
 		<ul>
 			<li><a href="all"> Показать все товары </a></li>
-			<li><a href="add"> Добавить товар</a></li>
+			<li><a href="add"> Изменить каталог</a></li>
 			<li><a href="LogoutServlet"> Выйти</a></li>
 		</ul>
 	</div>
