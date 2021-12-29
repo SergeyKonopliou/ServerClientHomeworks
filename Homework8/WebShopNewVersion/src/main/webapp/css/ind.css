@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+
+*, ::before, ::after {
+	box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, ul {
+	margin: 0;
+}
+
+body {
+	margin: auto;
+/* создаем папку ресурсов в папке где лежит файл css и тогда под томкатом видит файлы в папке ресурсов */
+	background-image:url("resources/kaktus.jpg");
+	background-color: #c5bdaacc;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.container {
+   max-width: 1200px;
+   height:600px;
+   margin: 0px auto;
+   padding: 0px 15px;
+}
+
+.main {
+	max-width: 80%;
+    height: 80%;
+    margin: 100px auto;
+	display: flex;
+	flex-direction: column;	
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	max-width: 50%;
+    height: 50%;
+    margin:10% 30%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.field {
+	width: 400px;
+	height: 40px;
+}
+
+#message {
+	margin-top: 10%;
+	padding-right: 1.5%;
+	padding-left: 1.5%;
+	text-align: center;
+	font-family: Arial, sans-serif;
+	font-size: 20px;
+	color: #ff0000;
+}
+
+.referencies {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.referencies ul li {
+	display: inline-block;
+	margin-top: 1.3%;
+	padding-right: 1.5%;
+	padding-left: 1.5%;
+	text-align: center;
+	font-family: Arial, sans-serif;
+	font-size: 20px;
+}
+
+a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: blink;
+}
+
+#hidden-element {
+	display: none;
+}

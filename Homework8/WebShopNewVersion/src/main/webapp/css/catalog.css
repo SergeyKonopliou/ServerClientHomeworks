@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+    margin: 0;
+}
+body {
+    max-width: 1300px;
+    margin: auto;
+}
+
+.search{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+.search_margin{
+	margin-top: 20px;
+}
