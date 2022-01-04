@@ -14,6 +14,7 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 <link href="css/ind.css" rel="stylesheet" />
+<link rel="icon" href="css/resources/cactus.png">
 </head>
 
 <body>

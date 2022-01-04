@@ -20,20 +20,11 @@ public class LoginServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 //	private GoodService service = new GoodService();
 
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
@@ -52,11 +43,11 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("loginName", name);
 				session.setAttribute("loginPass", password);
 //				session.setAttribute("service", service);
-				LOGGER.info("Вход в систему под логином: " + name + " и паролем: " + password);
+				LOGGER.info("Entry the system with login: " + name + " and password: " + password);
 				getServletContext().getRequestDispatcher("/userPage.jsp").forward(request, response);
 			} else {
-				LOGGER.warn("Некорректно введены данные для входа. Логин: " + name + ",пароль: " + password);
-				request.setAttribute("message", "Введите данные для входа");
+				LOGGER.warn("Incorrect login information. Login: " + name + ",password: " + password);
+				request.setAttribute("message","Enter your login information");
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		}

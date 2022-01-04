@@ -8,6 +8,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-" />
 <title>Main page</title>
+<link rel="icon" href="css/resources/cactus.png">
 <link href="css/ind.css" rel="stylesheet" />
 </head>
 

@@ -13,11 +13,11 @@ import org.apache.log4j.Logger;
 import exception.DBConnectException;
 
 /**
- * Класс создания пула соединений и получения соединения из этого пула. 
- * Класс ConnectonPool делается singletone(это когда нельзя создать больше
- * одного экземпляра данного класса.Для этого делается приватный конструктор
- * и для доступа к экземпляру класса оздается специальный метод, который
- * возвращает только один экземпляр класса).
+ * Класс создания пула соединений и получения соединения из этого пула. Класс
+ * ConnectonPool делается singletone(это когда нельзя создать больше одного
+ * экземпляра данного класса.Для этого делается приватный конструктор и для
+ * доступа к экземпляру класса оздается специальный метод, который возвращает
+ * только один экземпляр класса).
  *
  */
 public class ConnectionPool {
@@ -32,8 +32,9 @@ public class ConnectionPool {
 	public static ConnectionPool getInstance() {
 		if (instance == null) {
 			instance = new ConnectionPool();
+			LOGGER.info("Пул соединений к базе данных создан");
 		}
-		LOGGER.info("Пул соединений к базе данных создан");
+		LOGGER.info("Получен созданный пул соединений");
 		return instance;
 	}
 
@@ -46,7 +47,7 @@ public class ConnectionPool {
 			// Метод lookup() извлекает объект по ссылке.
 			DataSource data = (DataSource) context.lookup("java:comp/env/jdbc/myPool");
 			connection = data.getConnection();
-			LOGGER.info("Получено соединение " + connection.getClientInfo());
+			LOGGER.info("Получено соединение " + connection.getMetaData().getConnection().toString());
 		} catch (NamingException | SQLException e) {
 			LOGGER.error("Проблемы с получением соединения к базе данных " + e);
 			throw new DBConnectException("Проблемы с получением соединения к базе данных ", e);

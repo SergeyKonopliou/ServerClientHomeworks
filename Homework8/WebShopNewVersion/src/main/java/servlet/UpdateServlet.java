@@ -24,7 +24,7 @@ public class UpdateServlet extends HttpServlet {
 	private String message = null;
 
 	@Override
-	public void init(){
+	public void init() {
 		service = (GoodService) getServletContext().getAttribute("service");
 	}
 
@@ -45,19 +45,24 @@ public class UpdateServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		String nameNew = request.getParameter("update-nameNew");
 		String priceNew = request.getParameter("update-priceNew");
-		LOGGER.info("Пользователь хочет изменить товар");
+		LOGGER.info("The user wants to change the product");
 		String updatePrice = validatorDec.valid(priceNew);
 		try {
-			LOGGER.info(id + " изменить на " + nameNew + " " + priceNew);
+			LOGGER.info("by product id " + id + " change name " + nameNew + " price " + priceNew);
 			service.update(id, nameNew, updatePrice);
-			message = "Успешно изменено";
+			message = "Successfully updated";
 			LOGGER.info(message);
 			request.setAttribute("message_action", message);
 			request.getRequestDispatcher("/all").forward(request, response);
 		} catch (ServiceException e) {
-			LOGGER.error("Проблемы при изменении товара: " + e);
-			request.setAttribute("message_action", "Проблемы с изменением товара.Вызывайте фиксиков");
+			LOGGER.error("Problems with changing product: " + e);
+			request.setAttribute("message_action", "Problems with changing product.Вызывайте фиксиков");
 			request.getRequestDispatcher("/all").forward(request, response);
 		}
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
 	}
 }

@@ -15,8 +15,9 @@ import exception.DBConnectException;
 import exception.DaoCreateTableException;
 
 /**
- * Класс,где создается первоначальное подключение к бд,без пула соединений,чтобы создать нашу бд и таблицу
- * с начальными данными,если этого нет
+ * Класс,где создается наша бд и таблица(если этого нет),без пула соединений.
+ * Затем уже подключаемся к созданной бд через пул соединений и заполняем
+ * таблицу первоначальными данными,если таблица пустая
  */
 public class OriginalDatabaseAndTableCreater {
 
@@ -24,43 +25,36 @@ public class OriginalDatabaseAndTableCreater {
 	private static final Logger LOGGER = Logger.getLogger(OriginalDatabaseAndTableCreater.class);
 	private static final String SQL_FILL_QUERY = "SELECT name FROM goods WHERE id IS NOT NULL";
 
-
 	public OriginalDatabaseAndTableCreater() {
 
 	}
 
 	public void createDatabaseAndTable() throws DBConnectException {
-		try {
-			Connection connection = manager.connection();// подключаемся к бд world,так как наша еще не создана
-			Statement statement = connection.createStatement();
-			//создание бд и таблицы если их нет
-			write("createBaseTable.sql",statement);
-			statement.close();
-			connection.close();
+		try (Connection connection = manager.connection();// подключаемся к бд world,так как наша еще не создана
+			Statement statement = connection.createStatement();){
+			// создание бд и таблицы если их нет
+			write("createBaseTable.sql", statement);
 		} catch (DBConnectException | SQLException e) {
 			LOGGER.error("Проблемы при подключении к базе данных " + e.getMessage());
 			throw new DBConnectException("Проблемы при подключении к базе данных " + e.getMessage(), e);
 		}
-		try {
-			Connection connection = ConnectionPool.getInstance().getConnection();
-			Statement statement = connection.createStatement();
-			//заполнение таблицы первоначальными данными,если она пустая
+		try(Connection connection = ConnectionPool.getInstance().getConnection();// подключаемся к теперь уже созданной нашей бд
+			Statement statement = connection.createStatement();){
+			// заполнение таблицы первоначальными данными,если она пустая
 			ResultSet resultSet = statement.executeQuery(SQL_FILL_QUERY);
 			if (!resultSet.next()) {
-				write("fillBaseTable.sql",statement);
+				write("fillBaseTable.sql", statement);
 			}
 			LOGGER.info("Таблица создана");
-			statement.close();
-			connection.close();
 		} catch (SQLException e) {
 			LOGGER.error("Проблемы при создании таблицы с начальными данными " + e.getMessage());
 			throw new DaoCreateTableException(
 					"Проблемы при начальном создании таблицы с начальными данными " + e.getMessage(), e);
 		}
-		
+
 	}
 
-	private void write(String file,	Statement statement) {
+	private void write(String file, Statement statement) {
 		String[] strArr;
 		String strRequest;
 		InputStream is = OriginalDatabaseAndTableCreater.class.getClassLoader().getResourceAsStream(file);
@@ -82,4 +76,3 @@ public class OriginalDatabaseAndTableCreater {
 	}
 
 }
-

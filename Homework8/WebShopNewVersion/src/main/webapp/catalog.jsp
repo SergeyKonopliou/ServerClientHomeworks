@@ -13,6 +13,7 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 <link href="css/catalog.css" rel="stylesheet" />
+<link rel="icon" href="css/resources/cactus.png">
 <title>Catalog page</title>
 </head>
 <body>
@@ -67,7 +68,7 @@
 					<!-- 					<td><button onclick="myFunction()">Buy</button></td> -->
 					<td>
 						<button type="button" class="btn btn-primary mb-2"
-							onclick="window.location.href = 'update.jsp?id=${good.id}'">Update</button>
+							onclick="window.location.href = 'update.jsp?id=${good.id}&name=${good.name}&price=${good.price}'">Update</button>
 						<button type="button" class="btn btn-primary mb-2"
 							onclick="window.location.href = 'delete?id=${good.id}'">Delete</button>
 					</td>

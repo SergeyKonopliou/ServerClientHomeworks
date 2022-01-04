@@ -24,7 +24,7 @@ public class LogoutServlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			LOGGER.info("Пользователь " + session.getAttribute("loginName") + " завершил сеанс работы");
+			LOGGER.info("User " + session.getAttribute("loginName") + "ended the session");
 			session.removeAttribute("loginName");
 			session.removeAttribute("loginPass");
 			session.invalidate();

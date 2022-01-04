@@ -30,9 +30,9 @@ public class CatalogServlet extends HttpServlet {
 	private String message;
 	private String message_action;
 	private static final Logger LOGGER = Logger.getLogger(CatalogServlet.class);
-	
+
 	@Override
-	public void init(){
+	public void init() {
 		service = (GoodService) getServletContext().getAttribute("service");
 	}
 
@@ -42,28 +42,28 @@ public class CatalogServlet extends HttpServlet {
 //		HttpSession session = req.getSession(false);
 //		service = (GoodService) session.getAttribute("service");
 		String name = req.getParameter("search-good");
-			try {
-				if (name != null && !name.isEmpty()) {
-					catalog = service.load(name);
-					message_action = (catalog.isEmpty())?"Ничего не найдено":"Успех поиска";
-					LOGGER.info("Поиск объекта по имени " + name);
-					LOGGER.info("Результат поиска: " + message_action);
-				} else {
-					catalog = service.loadAll();
-					message_action = (String) req.getAttribute("message_action");
-					LOGGER.info("Получение всех данных из базы данных");
-				}
-				message = "Найдено " + catalog.size() + " товара(ов)";
-				LOGGER.info(message);
-				req.setAttribute("catalog", catalog);
-				req.setAttribute("message", message);
-				req.setAttribute("message_action", message_action);
-				getServletContext().getRequestDispatcher("/catalog.jsp").forward(req, resp);
-			} catch (ServiceException e) {
-				LOGGER.error("Проблемы с формированием каталога товаров: " + e);
-				req.setAttribute("message_action","Проблемы с поиском.Вызывайте фиксиков");
-				req.getRequestDispatcher("/catalog.jsp").forward(req, resp);
+		try {
+			if (name != null && !name.isEmpty()) {
+				catalog = service.load(name);
+				message_action = (catalog.isEmpty()) ? "Not found anything" : "Successfully searched";
+				LOGGER.info("Search product by name " + name);
+				LOGGER.info("Search results: " + message_action);
+			} else {
+				catalog = service.loadAll();
+				message_action = (String) req.getAttribute("message_action");
+				LOGGER.info("Retrieving all data from the database");
 			}
+			message = "Found " + catalog.size() + " product(s)";
+			LOGGER.info(message);
+			req.setAttribute("catalog", catalog);
+			req.setAttribute("message", message);
+			req.setAttribute("message_action", message_action);
+			getServletContext().getRequestDispatcher("/catalog.jsp").forward(req, resp);
+		} catch (ServiceException e) {
+			LOGGER.error("Problems with the formation of the catalog of products: " + e);
+			req.setAttribute("message_action", "Problems with search. Вызывайте фиксиков");
+			req.getRequestDispatcher("/catalog.jsp").forward(req, resp);
+		}
 
 	}
 

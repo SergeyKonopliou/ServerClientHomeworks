@@ -7,6 +7,9 @@ import java.util.Properties;
 
 import exception.DBConnectException;
 
+/**
+ * Класс,реализующий первоначальное подключение к базе данных
+ */
 public class MysqlConfigConnectManager implements ConfigConnectManager {
 
 	@Override

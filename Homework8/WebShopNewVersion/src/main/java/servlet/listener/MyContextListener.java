@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import dao.GoodDao;
 import service.GoodService;
 
 /**
@@ -33,6 +34,7 @@ public class MyContextListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent sce)  { 
     	GoodService service = new GoodService();
+    	service.setMain(new GoodDao());
     	sce.getServletContext().setAttribute("service", service);
     }
 	

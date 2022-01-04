@@ -16,7 +16,6 @@ import entity.Good;
 import exception.DBConnectException;
 import exception.DaoException;
 
-
 public class GoodDao {
 
 	private static final String SQL_DELETE_GOOD_QUERY = "DELETE FROM goods WHERE id = ?";
@@ -24,10 +23,9 @@ public class GoodDao {
 	private static final String SQL_UPDATE_GOOD_QUERY_WITHOUT_PRICE = "UPDATE goods SET name = ? WHERE id = ?";
 	private static final String SQL_UPDATE_GOOD_QUERY_WITHOUT_NAME = "UPDATE goods SET price = ? WHERE id = ?";
 	private static final String SQL_ADD_GOOD_QUERY = "INSERT INTO goods(name, price) VALUES (?,?)";
-	private static final String SQL_FIND_GOOD_LIKE_QUERY = "SELECT name,price FROM goods WHERE name LIKE ?";
+	private static final String SQL_FIND_GOOD_LIKE_QUERY = "SELECT * FROM goods WHERE name LIKE ?";
 	private static final String SQL_SELECT_ALL_GOOD_QUERY = "SELECT * FROM goods";
 	private static final Logger LOGGER = Logger.getLogger(GoodDao.class);
-	
 
 	private OriginalDatabaseAndTableCreater bd;
 
@@ -43,10 +41,10 @@ public class GoodDao {
 	}
 
 	public List<Good> getAll() throws DaoException {
-		
+
 		List<Good> newGoods = new ArrayList<>();
-		try(Connection connection = ConnectionPool.getInstance().getConnection();
-			Statement statement = connection.createStatement();){
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_GOOD_QUERY);
 			LOGGER.info("Запрос в базу данных: " + SQL_SELECT_ALL_GOOD_QUERY);
 			while (resultSet.next()) {
@@ -63,12 +61,12 @@ public class GoodDao {
 	}
 
 	public List<Good> find(String nameGood) throws DaoException {
-		
+
 		List<Good> foundGoods = new ArrayList<>();
-		try(Connection connection = ConnectionPool.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_GOOD_LIKE_QUERY);){
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_FIND_GOOD_LIKE_QUERY);) {
 			statement.setString(1, "%" + nameGood + "%");
-			LOGGER.info("Запрос в базу данных: " + SQL_FIND_GOOD_LIKE_QUERY);
+			LOGGER.info("Запрос в базу данных: " + SQL_FIND_GOOD_LIKE_QUERY + " по названию " + nameGood);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("id");
@@ -83,12 +81,13 @@ public class GoodDao {
 	}
 
 	public void add(Good good) throws DaoException {
-		
-		try(Connection connection = ConnectionPool.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_ADD_GOOD_QUERY);){
+
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_ADD_GOOD_QUERY);) {
 			statement.setString(1, good.getName());
 			statement.setDouble(2, good.getPrice());
 			LOGGER.info("Запрос в базу данных: " + SQL_ADD_GOOD_QUERY);
+			LOGGER.info("название " + good.getName() + " цена " + good.getPrice());
 			statement.executeUpdate();// executeQuery() здесь не работает!!!
 		} catch (SQLException | DBConnectException e) {
 			throw new DaoException("Возникла ошибка при добавлении нового товара в БД " + e.getMessage(), e);
@@ -97,26 +96,29 @@ public class GoodDao {
 	}
 
 	public void update(String id, String newName, String newPrice) throws DaoException {
-		
-		try (Connection connection = ConnectionPool.getInstance().getConnection();){
+
+		try (Connection connection = ConnectionPool.getInstance().getConnection();) {
 			PreparedStatement statement;
-		
+
 			if (!newPrice.isEmpty() && !newName.isEmpty()) {
 				statement = connection.prepareStatement(SQL_UPDATE_GOOD_QUERY);
 				statement.setString(1, newName);
 				statement.setDouble(2, Double.parseDouble(newPrice));
 				statement.setInt(3, Integer.parseInt(id));
 				LOGGER.info("Запрос в базу данных: " + SQL_UPDATE_GOOD_QUERY);
+				LOGGER.info("id " + id + " название " + newName + " цена " + newPrice);
 			} else if (!newName.isEmpty()) {
 				statement = connection.prepareStatement(SQL_UPDATE_GOOD_QUERY_WITHOUT_PRICE);
 				statement.setString(1, newName);
 				statement.setInt(2, Integer.parseInt(id));
 				LOGGER.info("Запрос в базу данных: " + SQL_UPDATE_GOOD_QUERY_WITHOUT_PRICE);
+				LOGGER.info("id " + id + " название " + newName + " цена " + newPrice);
 			} else {
 				statement = connection.prepareStatement(SQL_UPDATE_GOOD_QUERY_WITHOUT_NAME);
 				statement.setDouble(1, Double.parseDouble(newPrice));
 				statement.setInt(2, Integer.parseInt(id));
 				LOGGER.info("Запрос в базу данных: " + SQL_UPDATE_GOOD_QUERY_WITHOUT_NAME);
+				LOGGER.info("id " + id + " название " + newName + " цена " + newPrice);
 			}
 			statement.executeUpdate();
 			statement.close();
@@ -126,11 +128,11 @@ public class GoodDao {
 	}
 
 	public void delete(String id) throws DaoException {
-		
-		try(Connection connection = ConnectionPool.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_DELETE_GOOD_QUERY);){
+
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_DELETE_GOOD_QUERY);) {
 			statement.setInt(1, Integer.parseInt(id));
-			LOGGER.info("Запрос в базу данных: " + SQL_DELETE_GOOD_QUERY);
+			LOGGER.info("Запрос в базу данных: " + SQL_DELETE_GOOD_QUERY + " " + "по id " + id);
 			statement.executeUpdate();
 		} catch (SQLException | DBConnectException e) {
 			throw new DaoException("Возникла ошибка при удалении товара " + e.getMessage(), e);

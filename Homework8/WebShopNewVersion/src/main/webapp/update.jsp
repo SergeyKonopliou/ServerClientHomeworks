@@ -13,6 +13,7 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 <link href="css/update.css" rel="stylesheet" />
+<link rel="icon" href="css/resources/cactus.png">
 <title>Catalog page</title>
 </head>
 <body>
@@ -21,7 +22,7 @@
 		<h2>Update product</h2>
 
 		<button type="button" class="btn btn-dark"
-			onclick="window.location.href = 'catalog.jsp'">Back</button>
+			onclick="window.location.href = 'all'">Back</button>
 	</div>
 
 	<div class="update">
@@ -30,11 +31,11 @@
 			<div class="row">
 				<div class="col">
 					<input type="text" name="update-nameNew" class="form-control"
-						placeholder="New product name">
+						placeholder="${param.name}">
 				</div>
 				<div class="col">
 					<input type="text" name="update-priceNew" class="form-control"
-						placeholder="New product price">
+						placeholder="${param.price}">
 				</div>
 			</div>
 			<div>

@@ -22,7 +22,7 @@ public class DeleteServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(DeleteServlet.class);
 
 	@Override
-	public void init(){
+	public void init() {
 		service = (GoodService) getServletContext().getAttribute("service");
 	}
 
@@ -31,26 +31,25 @@ public class DeleteServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 //		HttpSession session = request.getSession(false);
 //		service = (GoodService) session.getAttribute("service");
-			String id = request.getParameter("id");
-			LOGGER.info("Поступил запрос на удаление товара под id = " + id);
-			if (!id.isEmpty() && id!= null) {
-				try {
-					service.delete(id);
-					message = "Успешно удалено";
-					LOGGER.info(message);
-					request.setAttribute("message_action", message);
-					request.getRequestDispatcher("/all").forward(request, response);
-				} catch (ServiceException e) {
-					LOGGER.error("При удалении товара возникла ошибка" + e);
-					request.setAttribute("message_action", "При удалении товара возникла ошибка.Вызывайте фиксиков");
-					request.getRequestDispatcher("/all").forward(request, response);
-				}
+		String id = request.getParameter("id");
+		LOGGER.info("There was a request to remove an item with an id = " + id);
+		if (!id.isEmpty() && id != null) {
+			try {
+				service.delete(id);
+				message = "Successfully deleted";
+				LOGGER.info(message);
+				request.setAttribute("message_action", message);
+				request.getRequestDispatcher("/all").forward(request, response);
+			} catch (ServiceException e) {
+				LOGGER.error("An error occurred while deleting the product " + e);
+				request.setAttribute("message_action", "An error occurred while deleting the product.Вызывайте фиксиков");
+				request.getRequestDispatcher("/all").forward(request, response);
 			}
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

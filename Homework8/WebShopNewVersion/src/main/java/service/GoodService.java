@@ -10,7 +10,7 @@ import entity.Good;
 import exception.DaoException;
 
 public class GoodService {
-	private GoodDao main = new GoodDao();
+	private GoodDao main;
 
 	
 	public List<Good> loadAll() throws ServiceException {
@@ -59,6 +59,16 @@ public class GoodService {
 		} catch (DaoException e) {
 			throw new ServiceException("Проблемы с изменением товара в БД " + e.getMessage(), e);
 		}
+	}
+
+
+	public GoodDao getMain() {
+		return main;
+	}
+
+
+	public void setMain(GoodDao main) {
+		this.main = main;
 	}
 
 }
