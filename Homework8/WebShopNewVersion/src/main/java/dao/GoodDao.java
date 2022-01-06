@@ -35,11 +35,14 @@ public class GoodDao {
 		try {
 			bd.createDatabaseAndTable();
 		} catch (DBConnectException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 
 	}
 
+	/**
+	 * Метод получения всех товаров и базы данных
+	 */
 	public List<Good> getAll() throws DaoException {
 
 		List<Good> newGoods = new ArrayList<>();
@@ -60,7 +63,10 @@ public class GoodDao {
 		return newGoods;
 	}
 
-	public List<Good> find(String nameGood) throws DaoException {
+	/**
+	 * Метод поиска товара по названию
+	 */
+	public List<Good> findByName(String nameGood) throws DaoException {
 
 		List<Good> foundGoods = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -80,6 +86,9 @@ public class GoodDao {
 		return foundGoods;
 	}
 
+	/**
+	 * Метод добавления нового товара в базу данных
+	 */
 	public void add(Good good) throws DaoException {
 
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -95,6 +104,9 @@ public class GoodDao {
 
 	}
 
+	/**
+	 * Метод изменения информации о товаре
+	 */
 	public void update(String id, String newName, String newPrice) throws DaoException {
 
 		try (Connection connection = ConnectionPool.getInstance().getConnection();) {
@@ -127,6 +139,9 @@ public class GoodDao {
 		}
 	}
 
+	/**
+	 * Метод удаления товара по id из базы данных
+	 */
 	public void delete(String id) throws DaoException {
 
 		try (Connection connection = ConnectionPool.getInstance().getConnection();

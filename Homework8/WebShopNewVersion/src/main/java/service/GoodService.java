@@ -12,7 +12,9 @@ import exception.DaoException;
 public class GoodService {
 	private GoodDao main;
 
-	
+	/**
+	 * Метод загрузки всех товаров и базы данных
+	 */
 	public List<Good> loadAll() throws ServiceException {
 		List<Good> goods = new ArrayList<>();
 		try {
@@ -23,18 +25,22 @@ public class GoodService {
 		return goods;
 	}
 
-	
-	public List<Good> load(String name) throws ServiceException {
+	/**
+	 * Метод загрузки товаров,найденных по названию
+	 */
+	public List<Good> loadFindProductByName(String name) throws ServiceException {
 		List<Good> goods = new ArrayList<>();
 		try {
-			goods = main.find(name);
+			goods = main.findByName(name);
 		} catch (DaoException e) {
 			throw new ServiceException("Проблемы с поиском товара в БД " + e.getMessage(), e);
 		}
 		return goods;
 	}
 
-	
+	/**
+	 * Метод добавления нового товара в базу данных
+	 */
 	public void add(Good object) throws ServiceException {
 		try {
 			main.add(object);
@@ -43,7 +49,9 @@ public class GoodService {
 		}
 	}
 
-	
+	/**
+	 * Метод удаления товара из базы данных
+	 */
 	public void delete(String id) throws ServiceException {
 		try {
 			main.delete(id);
@@ -52,7 +60,9 @@ public class GoodService {
 		}
 	}
 
-	
+	/**
+	 * Метод изменения товара в базе данных
+	 */
 	public void update(String id, String nameNew, String priceNew) throws ServiceException {
 		try {
 			main.update(id, nameNew, priceNew);

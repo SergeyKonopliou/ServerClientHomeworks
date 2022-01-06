@@ -16,42 +16,41 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class AuthificationFilter
  */
-@WebFilter("*.jsp")//если прописать все адреса(/*),то не подключает css на страницах
+@WebFilter("*.jsp") // если прописать все адреса(/*),то не подключает css на страницах
 public class AuthificationFilter implements Filter {
 
-  
-    public AuthificationFilter() {
+	public AuthificationFilter() {
 
-    }
-
-	public void destroy() {
-	
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void destroy() {
+
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
+
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse resp = (HttpServletResponse) response;
 		final HttpSession session = req.getSession(false);
-		
+
 		String name = (String) req.getParameter("name");
 		String password = (String) req.getParameter("pass");
-		
-		if(session != null && session.getAttribute("loginName") != null && session.getAttribute("loginPass") != null) {
+
+		if (session != null && session.getAttribute("loginName") != null && session.getAttribute("loginPass") != null) {
 			chain.doFilter(req, resp);
-		}
-		else if(name != null && password != null) {
+		} else if (name != null && password != null) {
 			req.getRequestDispatcher("/logg").forward(req, resp);
-		}else {
+		} else {
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
-		
+
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		
+
 	}
 
 }

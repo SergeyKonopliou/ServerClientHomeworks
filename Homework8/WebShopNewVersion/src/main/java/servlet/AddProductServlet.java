@@ -39,7 +39,7 @@ public class AddProductServlet extends HttpServlet {
 		String name = request.getParameter("add-name");
 		String price = request.getParameter("add-price");
 		LOGGER.info("Request to add a new product " + name + " " + price);
-		if (!name.isEmpty() && name != null) {
+		if (!name.isBlank()) {
 			try {
 				/**
 				 * валидатор validatorDec проверяет подходит ли цена под дробное число, если
@@ -49,12 +49,11 @@ public class AddProductServlet extends HttpServlet {
 				message = "Successfully added";
 			} catch (NumberFormatException | ServiceException e) {
 				LOGGER.error("Problems adding a new product: " + e);
-				request.setAttribute("message_action",
-						"Having problems adding a new product.Вызывайте фиксиков");
+				request.setAttribute("message_action", "Having problems adding a new product.Вызывайте фиксиков");
 				request.getRequestDispatcher("/all").forward(request, response);
 			}
 		} else {
-			message = "Incorrect data to add";
+			message = "Incorrect data to add.Enter product name";
 		}
 		LOGGER.info(message);
 		request.setAttribute("message_action", message);

@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 			String name = (String) request.getParameter("name");
 			String password = (String) request.getParameter("pass");
 
-			if (!name.isEmpty() && !password.isEmpty()) {
+			if (!name.isBlank() && !password.isBlank()) {
 				session = request.getSession();
 				session.setAttribute("loginName", name);
 				session.setAttribute("loginPass", password);
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 				getServletContext().getRequestDispatcher("/userPage.jsp").forward(request, response);
 			} else {
 				LOGGER.warn("Incorrect login information. Login: " + name + ",password: " + password);
-				request.setAttribute("message","Enter your login information");
+				request.setAttribute("message", "Enter your login information");
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		}

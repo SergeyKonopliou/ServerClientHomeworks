@@ -44,14 +44,14 @@ public class CatalogServlet extends HttpServlet {
 		String name = req.getParameter("search-good");
 		try {
 			if (name != null && !name.isEmpty()) {
-				catalog = service.load(name);
+				catalog = service.loadFindProductByName(name);
 				message_action = (catalog.isEmpty()) ? "Not found anything" : "Successfully searched";
 				LOGGER.info("Search product by name " + name);
 				LOGGER.info("Search results: " + message_action);
 			} else {
 				catalog = service.loadAll();
 				message_action = (String) req.getAttribute("message_action");
-				LOGGER.info("Retrieving all data from the database");
+				LOGGER.info("Receive all data from the database");
 			}
 			message = "Found " + catalog.size() + " product(s)";
 			LOGGER.info(message);

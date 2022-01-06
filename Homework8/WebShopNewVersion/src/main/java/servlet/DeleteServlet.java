@@ -33,18 +33,16 @@ public class DeleteServlet extends HttpServlet {
 //		service = (GoodService) session.getAttribute("service");
 		String id = request.getParameter("id");
 		LOGGER.info("There was a request to remove an item with an id = " + id);
-		if (!id.isEmpty() && id != null) {
-			try {
-				service.delete(id);
-				message = "Successfully deleted";
-				LOGGER.info(message);
-				request.setAttribute("message_action", message);
-				request.getRequestDispatcher("/all").forward(request, response);
-			} catch (ServiceException e) {
-				LOGGER.error("An error occurred while deleting the product " + e);
-				request.setAttribute("message_action", "An error occurred while deleting the product.Вызывайте фиксиков");
-				request.getRequestDispatcher("/all").forward(request, response);
-			}
+		try {
+			service.delete(id);
+			message = "Successfully deleted";
+			LOGGER.info(message);
+			request.setAttribute("message_action", message);
+			request.getRequestDispatcher("/all").forward(request, response);
+		} catch (ServiceException e) {
+			LOGGER.error("An error occurred while deleting the product " + e);
+			request.setAttribute("message_action", "An error occurred while deleting the product.Вызывайте фиксиков");
+			request.getRequestDispatcher("/all").forward(request, response);
 		}
 	}
 

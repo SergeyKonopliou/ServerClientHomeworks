@@ -17,13 +17,15 @@ public class MysqlConfigConnectManager implements ConfigConnectManager {
 		Connection connect = null;
 		try {
 			Properties property = new Properties();
-			//1вариант
-			InputStream is = MysqlConfigConnectManager.class.getClassLoader().getResourceAsStream("mysqldatabase.properties");
+			// 1вариант
+			InputStream is = MysqlConfigConnectManager.class.getClassLoader()
+					.getResourceAsStream("mysqldatabase.properties");
 			property.load(is);
 			is.close();
-			//2вариант
-			//property.load(new FileReader("/resources/mysqldatabase.properties")); //не верный путь
-			
+			// 2вариант
+			// property.load(new FileReader("/resources/mysqldatabase.properties")); //не
+			// верный путь
+
 			String driver = property.getProperty("jdbc.driver");
 			String connectionURL = property.getProperty("jdbc.url");
 			String username = property.getProperty("jdbc.username");
@@ -31,9 +33,9 @@ public class MysqlConfigConnectManager implements ConfigConnectManager {
 
 			Class.forName(driver);
 			connect = DriverManager.getConnection(connectionURL, username, password);
-			
+
 			return connect;
-			
+
 		} catch (Exception e) {
 			throw new DBConnectException("Проблемы с подключением к базе данных " + e.getMessage(), e);
 		}
